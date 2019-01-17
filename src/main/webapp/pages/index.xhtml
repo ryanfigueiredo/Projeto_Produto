@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="https://fonts.googleapis.com/css?family=Oswald"
+		rel="stylesheet" />
+	<title>Protudos</title>
+	<h:outputStylesheet library="css" name="produtos.css" />
+	<script type="text/javascript" src="../resources/scripts/invisivel.js"></script>
+
+
+</h:head>
+<h:body>
+	<div class="cabecalho">
+		<span class="cab_prod">Cadastro de Produtos</span>
+	</div>
+
+
+	<div class="box">
+		<div class="botoes">
+			<p:commandLink value="Novo Produto" styleClass="botao novoProd"
+				onclick="invi_visi()" action="#{produtoBean.novo}"
+				update="frmCadastro:prod frmCadastro:qtd frmCadastro:prec" />
+			<p:commandLink value=" Mostrar
+				Produtos"
+				styleClass="botao mostProd" action="#{produtoBean.listar}"
+				update=":tabela" onclick="invi_visi_tbl()" />
+
+			<div class="btn_buscar">
+				<h:form id="frmBuscar">
+					<h:inputText styleClass="buscar"
+						value="#{produtoBean.produto.codigo}">
+						<f:passThroughAttribute name="placeholder" value="Buscar código" />
+					</h:inputText>
+					<p:commandLink styleClass="lupa" onclick="invi_visi_1()"
+						action="#{produtoBean.buscar}"
+						update="frmCadastro:prod frmCadastro:qtd frmCadastro:prec">
+						<i class="fa fa-search"></i>
+					</p:commandLink>
+				</h:form>
+			</div>
+		</div>
+	</div>
+
+	<div class="total" id="cadastro">
+		<div class="fechar">X</div>
+		<h:form id="frmCadastro">
+			<div class="linha1">
+				<div class="div1">
+					<h:outputText value="Produto*" styleClass="texto" />
+				</div>
+				<div class="div2">
+					<h:inputText styleClass="escrita"
+						value="#{produtoBean.produto.produto}" id="prod" />
+				</div>
+				<div class="div3">
+					<h:outputText value="Marca" styleClass="texto" />
+				</div>
+				<div class="div4">
+					<h:inputText styleClass="escrita" />
+				</div>
+			</div>
+			<div class="linha2">
+				<div class="div1">
+					<h:outputText value="Preço*" styleClass="texto" />
+				</div>
+				<div class="div2">
+					<h:inputText styleClass="escrita"
+						value="#{produtoBean.produto.preco}" id="prec" />
+				</div>
+				<div class="div3">
+					<h:outputText value="Tipo" styleClass="texto" />
+				</div>
+				<div class="div4">
+					<h:inputText styleClass="escrita" />
+				</div>
+			</div>
+			<div class="linha3">
+				<div class="div1">
+					<h:outputText value="Em estoque*" styleClass="texto" />
+				</div>
+				<div class="div2">
+					<h:inputText styleClass="escrita"
+						value="#{produtoBean.produto.quantidade}" id="qtd" />
+				</div>
+				<div class="div3">
+					<h:outputText value="Fornecedor" styleClass="texto" />
+				</div>
+				<div class="div4">
+					<h:inputText styleClass="escrita" />
+				</div>
+			</div>
+			<div class="linha4">
+				<div class="div1">
+					<h:outputText value="Fabricante" styleClass="texto" />
+				</div>
+				<div class="div2">
+					<h:inputText styleClass="escrita" />
+				</div>
+				<div class="div3">
+					<h:outputText value="Categoria" styleClass="texto" />
+				</div>
+				<div class="div4">
+					<h:inputText styleClass="escrita" />
+				</div>
+			</div>
+			<div class="linha5">
+				<div class="div1">
+					<h:outputText value="Descrição" styleClass="texto" />
+				</div>
+				<div class="div2">
+					<h:inputText styleClass="escrita" />
+				</div>
+				<div class="div3">
+					<h:outputText value="Observação" styleClass="texto" />
+				</div>
+				<div class="div4">
+					<h:inputText styleClass="escrita" />
+				</div>
+			</div>
+
+			<div class="div5" id="btn_salvar">
+				<p:commandLink value="Salvar" styleClass="botao salvarProd"
+					actionListener="#{produtoBean.salvar}"
+					update="tabela:tbl frmCadastro:prod frmCadastro:qtd frmCadastro:prec" />
+			</div>
+
+			<div class="div5" id="btn_editar">
+				<p:commandLink value="Editar" styleClass="botao editarProd"
+					actionListener="#{produtoBean.editar}" update=":tabela:tbl" />
+			</div>
+		</h:form>
+
+	</div>
+
+
+
+	<div class="div_tabela" id="tbl_prod">
+		<h:form id="tabela">
+			<p:dataTable emptyMessage="Nenhum registro encontrado"
+				value="#{produtoBean.produtos}" var="produto" id="tbl">
+				<p:column headerText="Cód">
+					<h:outputText value="#{produto.codigo}" />
+				</p:column>
+				<p:column headerText="Produto">
+					<h:outputText value="#{produto.produto}" />
+				</p:column>
+				<p:column headerText="Preço">
+					<h:outputText value="R$ #{produto.preco}" />
+				</p:column>
+				<p:column headerText="Em estoque">
+					<h:outputText value="#{produto.quantidade}" />
+				</p:column>
+				<p:column headerText="Total">
+					<h:outputText value="R$ #{produto.total}" />
+				</p:column>
+				<p:column headerText="Excluir">
+					<p:commandLink actionListener="#{produtoBean.excluir}"
+						update=":tabela:tbl">
+						<i class="fa fa-remove" style="font-size: 30px;"></i>
+						<p:confirm header="Confirmação"
+							message="Deseja excluir este Produto?" icon="ui-icon-alert" />
+						<f:attribute name="produtoSelecionado" value="#{produto}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+	</div>
+
+
+
+</h:body>
+</html>
